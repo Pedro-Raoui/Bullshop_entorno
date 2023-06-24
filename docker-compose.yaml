@@ -1,0 +1,80 @@
+version: '3.9'
+services:
+  #Nginx Service
+  webserver:
+    restart: unless-stopped
+    build:
+      context: ./config/nginx/
+      dockerfile: Dockerfile
+    depends_on:
+      - new-proyect
+      - old-proyect
+    volumes:
+      - ../bullshop/:/var/www/${NEW}/
+      - ../bullshop-old/:/var/www/${OLD}/
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./config/nginx/sites-available:/etc/nginx/sites-available/
+      - ./config/nginx/sites-available:/etc/nginx/sites-enabled/
+
+    command: [ nginx-debug, '-g', 'daemon off;' ]
+    container_name: webserver
+    ports:
+      - "80:80"
+    networks:
+      vpcGlobal:
+        ipv4_address: 16.5.0.3
+  #PHP Service
+  new-proyect:
+    build:
+      context: ./config/php/8_1/
+      dockerfile: Dockerfile
+    container_name: new-proyect
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www/${NEW}/
+    volumes:
+      - ../bullshop/:/var/www/${NEW}/
+      - ./docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+    networks:
+      vpcGlobal:
+        ipv4_address: 16.5.0.4
+  #PHP CM
+  old-proyect:
+    build:
+      context: ./config/php/8_1/
+      dockerfile: Dockerfile
+    container_name: old-proyect
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www/${OLD}/
+    volumes:
+      - ../bullshop-old/:/var/www/${OLD}/
+      - ./docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+    networks:
+      vpcGlobal:
+        ipv4_address: 16.5.0.5
+  #Front
+  front-solicitar:
+    image: node:alpine
+    container_name: front-solicitar
+    restart: unless-stopped
+    volumes:
+      - ../bullshop-old/:/app_old
+      - ../bullshop/:/app_new:rw
+    working_dir: /app_new
+    tty: true
+    ports:
+      - "3000:3000"
+      - "5173:5173"
+    networks:
+      vpcGlobal:
+        ipv4_address: 16.5.0.14
+#Docker Networks
+networks:
+  vpcGlobal:
+    name: vpcGlobal
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 16.5.0.0/16
+          gateway: 16.5.0.1

@@ -1,0 +1,52 @@
+APP_NAME=Laravel
+APP_ENV=local
+
+APP_KEY=base64:4ybM4WfTsH+Gv0S8Auvn5ITf9iGgQmNCgo7LS5s9Tik=
+
+APP_DEBUG=true
+APP_LOG_LEVEL=debug
+APP_URL=http://cm.psiconnea.com/
+
+DB_CONNECTION=mysql
+DB_HOST=ec2-15-236-68-223.eu-west-3.compute.amazonaws.com
+DB_PORT=3306
+DB_DATABASE=psiconnea
+DB_USERNAME=web
+DB_PASSWORD=5pTWYzG8qb48
+##
+##DB_CONNECTION=mysql
+##DB_HOST=db-translation
+##DB_PORT=3306
+##DB_DATABASE=psiconnea3mar
+##DB_USERNAME=root
+##DB_PASSWORD=password
+
+# PROD_CONNECTION=mysql
+# PROD_HOST=db-translation
+# PROD_PORT=3306
+# PROD_DATABASE=psiconnea_new
+# PROD_USERNAME=root
+# PROD_PASSWORD=password
+
+BROADCAST_DRIVER=log
+CACHE_DRIVER=file
+SESSION_DRIVER=file
+QUEUE_DRIVER=database
+
+REDIS_HOST=127.0.0.1
+REDIS_PASSWORD=null
+REDIS_PORT=6379
+
+MAIL_MAILER=smtp
+MAIL_HOST=sandbox.smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=3b43f6bfd01550
+MAIL_PASSWORD=daa37f706372a4
+MAIL_ENCRYPTION=tls
+
+PUSHER_APP_ID=
+PUSHER_APP_KEY=
+PUSHER_APP_SECRET=
+
+
+URL_APP_LOGO="https://app.psiconnea.com/public/img/image_empresa/"
